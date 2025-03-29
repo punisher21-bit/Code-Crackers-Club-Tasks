@@ -8,31 +8,31 @@ using namespace std ;
 vector<string> split(string index){
 	fstream mine(index,ios::in | ios::out);
 	if( ! mine.is_open() ) system("PAUSE");
-	vector<string> now ;
+	vector<string> split_index ;
 	string word ; 
 	while(mine >> word){
-		now.push_back(word);
+		split_index.push_back(word);
 	}
 	mine.close();
-	return now ;
+	return split_index ;
 }
 
-map<string,int> t2(vector<string> now){
-	map<string,int> last ;
+map<string,int> frequences(vector<string> split_index){
+	map<string,int> split_frequences ;
 	for(auto& k : now){
-		last[k]++;
+		split_frequences[k]++;
 	}
-	return last;
+	return split_frequences;
 }
 
-string t3(vector<string> now, map<string,int> result){
-	int counter = 5 ;
-	string all = "";
+string random_word(vector<string> split_index, map<string,int> split_frequences){
+	int counter = 5 ; // only 5 words !
+	string rd_word = "";
 	srand(time(NULL));
 	while(counter--){
-		int ans = rand()%9 ;
-		if(result[now[ans]] > 0){
-			all += now[ans] + " ";
+		int rd_number = rand()%9 ;
+		if(split_frequences[split_index[rd_number]] > 0){
+			rd_word += now[rd_number] + " ";
 		}
 		else{
 			counter++;
@@ -40,19 +40,17 @@ string t3(vector<string> now, map<string,int> result){
 		}
 			
 	}
-	return all ;
+	return rd_word ;
 }
 
 int main(){
-	//fstream mine("document.txt",ios::in | ios::out );
 	string index = "document.txt";
-	vector <string> now = split(index);
-	map<string,int> result = t2(now);
+	vector <string> split_index = split(index);
+	map<string,int> result = frequences(split_index);
 	for(auto& k : result){
 		cout << k.first << " : " << k.second << '\n';
 	}
-	srand(time(NULL));
-	string ls = t3(now,result);
-	cout << ls << '\n';
+	string rd_word = random_word(now,result);
+	cout << rd_word << '\n';
 	return 0 ;
 }
